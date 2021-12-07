@@ -1,0 +1,66 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="~/Masters/LoginMasterPage.master.cs" Inherits="ISE_S16_WB.LoginMasterPage" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head runat="server">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Created By Eng.Ammar Midani" />
+    <meta name="keywords" content="SVU, S16, Social Network, Social Media, Make Friends, Newsfeed, Profile Page" />
+    <meta name="robots" content="index, follow" />
+    <title>SVU Social Network | A Complete Social Network</title>
+
+    <!-- Stylesheets
+    ================================================= -->
+    <link rel="stylesheet" href="<%=ResolveClientUrl("~/css/bootstrap.min.css")%>" />
+    <link rel="stylesheet" href="<%=ResolveClientUrl("~/css/style.css")%>" />
+    <link rel="stylesheet" href="<%=ResolveClientUrl("~/css/ionicons.min.css")%>" />
+    <link rel="stylesheet" href="<%=ResolveClientUrl("~/css/font-awesome.min.css")%>" />
+    <!--Google Webfont-->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,300italic,400italic,500,500italic,600,600italic,700' rel='stylesheet' type='text/css' />
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="<%=ResolveClientUrl("~/images/fav.png")%>" />
+</head>
+<body>
+    <!-- Top Banner
+    ================================================= -->
+    <section id="banner">
+        <div class="container">
+            <!-- Form Login/Signup
+        ================================================= -->
+            <div class="sign-up-form">
+                <a href="#" class="logo"><img src="<%=ResolveClientUrl("~/images/logo.png")%>"/></a>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer
+    ================================================= -->
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-wrapper">
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>SVU Social Network ~ Powered By : Ammar Midani (ammar_67532)</p>
+        </div>
+    </footer>
+
+    <!--preloader-->
+    <div id="spinner-wrapper">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts
+    ================================================= -->
+    <script src="<%=ResolveClientUrl("~/js/jquery-3.1.1.min.js")%>"></script>
+    <script src="<%=ResolveClientUrl("~/js/bootstrap.min.js")%>"></script>
+    <script src="<%=ResolveClientUrl("~/js/jquery.appear.min.js")%>"></script>
+    <script src="<%=ResolveClientUrl("~/js/jquery.incremental-counter.js")%>"></script>
+    <script src="<%=ResolveClientUrl("~/js/script.js")%>"></script>
+</body>
+</html>

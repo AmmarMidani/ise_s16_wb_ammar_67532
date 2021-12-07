@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c0be4825eba14a4ebaef289c08e4c3fd" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="SocialMediaModel.Chat" Width="1.5" PointX="3" PointY="4.75" />
+        <EntityTypeShape EntityType="SocialMediaModel.FriendshipRequest" Width="1.5" PointX="3" PointY="17.75" />
+        <EntityTypeShape EntityType="SocialMediaModel.Inbox" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SocialMediaModel.PostComment" Width="1.5" PointX="5.25" PointY="10.5" />
+        <EntityTypeShape EntityType="SocialMediaModel.PostLike" Width="1.5" PointX="8.25" PointY="10.75" />
+        <EntityTypeShape EntityType="SocialMediaModel.Post" Width="1.5" PointX="3" PointY="14.25" />
+        <EntityTypeShape EntityType="SocialMediaModel.PostsImage" Width="1.5" PointX="5.25" PointY="14.75" />
+        <EntityTypeShape EntityType="SocialMediaModel.User" Width="1.5" PointX="0.75" PointY="6.625" />
+        <AssociationConnector Association="SocialMediaModel.FK_Chat_Users" />
+        <AssociationConnector Association="SocialMediaModel.FK_Chat_Users1" />
+        <AssociationConnector Association="SocialMediaModel.FK_FriendshipRequests_Users" />
+        <AssociationConnector Association="SocialMediaModel.FK_FriendshipRequests_Users1" />
+        <AssociationConnector Association="SocialMediaModel.FK_PostComments_Posts" />
+        <AssociationConnector Association="SocialMediaModel.FK_PostComments_Users" />
+        <AssociationConnector Association="SocialMediaModel.FK_PostLikes_Posts" />
+        <AssociationConnector Association="SocialMediaModel.FK_PostLikes_Users" />
+        <AssociationConnector Association="SocialMediaModel.FK_Posts_Users" />
+        <AssociationConnector Association="SocialMediaModel.FK_PostsImages_Posts" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

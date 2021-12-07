@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SocialMediaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Chat">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+    <Property Name="FromUserID" Type="bigint" Nullable="false" />
+    <Property Name="ToUserID" Type="bigint" Nullable="false" />
+    <Property Name="MessageContent" Type="nvarchar" MaxLength="4000" Nullable="false" />
+    <Property Name="IsRead" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FriendshipRequests">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FromUserID" Type="bigint" Nullable="false" />
+    <Property Name="ToUserID" Type="bigint" Nullable="false" />
+    <Property Name="RelationStatus" Type="int" Nullable="false" />
+    <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Inbox">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InboxContent" Type="nvarchar" MaxLength="4000" Nullable="false" />
+    <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+    <Property Name="RelatedID" Type="bigint" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostComments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="PostID" Type="bigint" Nullable="false" />
+    <Property Name="CommentContent" Type="nvarchar" MaxLength="4000" Nullable="false" />
+    <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostLikes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="PostID" Type="bigint" Nullable="false" />
+    <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Posts">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="PostingDateTime" Type="datetime" Nullable="false" />
+    <Property Name="PostContent" Type="ntext" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostsImages">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PostID" Type="bigint" Nullable="false" />
+    <Property Name="ImageURL" Type="nvarchar" MaxLength="1000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Firstname" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="Map_Lon" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Map_Lat" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Birthdate" Type="date" />
+    <Property Name="PersonalImageURL" Type="nvarchar" MaxLength="1000" />
+    <Property Name="WallImageURL" Type="nvarchar" MaxLength="1000" />
+    <Property Name="LastSeen" Type="datetime" Nullable="false" />
+    <Property Name="IsOnline" Type="bit" Nullable="false" />
+    <Property Name="Gender" Type="bit" Nullable="false" />
+    <Property Name="RegisterationDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Chat_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Chat" Type="Self.Chat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Chat">
+        <PropertyRef Name="FromUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Chat_Users1">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Chat" Type="Self.Chat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Chat">
+        <PropertyRef Name="ToUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FriendshipRequests_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="FriendshipRequests" Type="Self.FriendshipRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="FriendshipRequests">
+        <PropertyRef Name="FromUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FriendshipRequests_Users1">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="FriendshipRequests" Type="Self.FriendshipRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="FriendshipRequests">
+        <PropertyRef Name="ToUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostComments_Posts">
+    <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+    <End Role="PostComments" Type="Self.PostComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostComments">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostComments_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="PostComments" Type="Self.PostComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostComments">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostLikes_Posts">
+    <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+    <End Role="PostLikes" Type="Self.PostLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostLikes">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostLikes_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="PostLikes" Type="Self.PostLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostLikes">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Posts_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posts">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostsImages_Posts">
+    <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+    <End Role="PostsImages" Type="Self.PostsImages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostsImages">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SocialMediaModelStoreContainer">
+    <EntitySet Name="Chat" EntityType="Self.Chat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FriendshipRequests" EntityType="Self.FriendshipRequests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inbox" EntityType="Self.Inbox" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostComments" EntityType="Self.PostComments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostLikes" EntityType="Self.PostLikes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostsImages" EntityType="Self.PostsImages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Chat_Users" Association="Self.FK_Chat_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Chat" EntitySet="Chat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Chat_Users1" Association="Self.FK_Chat_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Chat" EntitySet="Chat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FriendshipRequests_Users" Association="Self.FK_FriendshipRequests_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="FriendshipRequests" EntitySet="FriendshipRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FriendshipRequests_Users1" Association="Self.FK_FriendshipRequests_Users1">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="FriendshipRequests" EntitySet="FriendshipRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostComments_Posts" Association="Self.FK_PostComments_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="PostComments" EntitySet="PostComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostComments_Users" Association="Self.FK_PostComments_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostComments" EntitySet="PostComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostLikes_Posts" Association="Self.FK_PostLikes_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="PostLikes" EntitySet="PostLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostLikes_Users" Association="Self.FK_PostLikes_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostLikes" EntitySet="PostLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Posts_Users" Association="Self.FK_Posts_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Posts" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostsImages_Posts" Association="Self.FK_PostsImages_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="PostsImages" EntitySet="PostsImages" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

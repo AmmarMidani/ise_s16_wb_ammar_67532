@@ -1,0 +1,679 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SocialMediaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Chat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+          <Property Name="FromUserID" Type="bigint" Nullable="false" />
+          <Property Name="ToUserID" Type="bigint" Nullable="false" />
+          <Property Name="MessageContent" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FriendshipRequests">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromUserID" Type="bigint" Nullable="false" />
+          <Property Name="ToUserID" Type="bigint" Nullable="false" />
+          <Property Name="RelationStatus" Type="int" Nullable="false" />
+          <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Inbox">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InboxContent" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RelatedID" Type="bigint" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostComments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="PostID" Type="bigint" Nullable="false" />
+          <Property Name="CommentContent" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostLikes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="PostID" Type="bigint" Nullable="false" />
+          <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="PostingDateTime" Type="datetime" Nullable="false" />
+          <Property Name="PostContent" Type="ntext" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostsImages">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostID" Type="bigint" Nullable="false" />
+          <Property Name="ImageURL" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="Map_Lon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Map_Lat" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Birthdate" Type="date" />
+          <Property Name="PersonalImageURL" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WallImageURL" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LastSeen" Type="datetime" Nullable="false" />
+          <Property Name="IsOnline" Type="bit" Nullable="false" />
+          <Property Name="Gender" Type="bit" Nullable="false" />
+          <Property Name="RegisterationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Chat_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Chat" Type="Self.Chat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Chat">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chat_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Chat" Type="Self.Chat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Chat">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendshipRequests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="FriendshipRequests" Type="Self.FriendshipRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendshipRequests">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendshipRequests_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="FriendshipRequests" Type="Self.FriendshipRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendshipRequests">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostComments_Posts">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="PostComments" Type="Self.PostComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostComments">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostComments_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PostComments" Type="Self.PostComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostComments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostLikes_Posts">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="PostLikes" Type="Self.PostLikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostLikes">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostLikes_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PostLikes" Type="Self.PostLikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostLikes">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostsImages_Posts">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="PostsImages" Type="Self.PostsImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostsImages">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocialMediaModelStoreContainer">
+          <EntitySet Name="Chat" EntityType="Self.Chat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FriendshipRequests" EntityType="Self.FriendshipRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inbox" EntityType="Self.Inbox" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostComments" EntityType="Self.PostComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostLikes" EntityType="Self.PostLikes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostsImages" EntityType="Self.PostsImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Chat_Users" Association="Self.FK_Chat_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Chat" EntitySet="Chat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chat_Users1" Association="Self.FK_Chat_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Chat" EntitySet="Chat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendshipRequests_Users" Association="Self.FK_FriendshipRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="FriendshipRequests" EntitySet="FriendshipRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendshipRequests_Users1" Association="Self.FK_FriendshipRequests_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="FriendshipRequests" EntitySet="FriendshipRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostComments_Posts" Association="Self.FK_PostComments_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="PostComments" EntitySet="PostComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostComments_Users" Association="Self.FK_PostComments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PostComments" EntitySet="PostComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostLikes_Posts" Association="Self.FK_PostLikes_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="PostLikes" EntitySet="PostLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostLikes_Users" Association="Self.FK_PostLikes_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PostLikes" EntitySet="PostLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Users" Association="Self.FK_Posts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostsImages_Posts" Association="Self.FK_PostsImages_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="PostsImages" EntitySet="PostsImages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SocialMediaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SocialMediaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Chats" EntityType="SocialMediaModel.Chat" />
+          <EntitySet Name="FriendshipRequests" EntityType="SocialMediaModel.FriendshipRequest" />
+          <EntitySet Name="Inboxes" EntityType="SocialMediaModel.Inbox" />
+          <EntitySet Name="PostComments" EntityType="SocialMediaModel.PostComment" />
+          <EntitySet Name="PostLikes" EntityType="SocialMediaModel.PostLike" />
+          <EntitySet Name="Posts" EntityType="SocialMediaModel.Post" />
+          <EntitySet Name="PostsImages" EntityType="SocialMediaModel.PostsImage" />
+          <EntitySet Name="Users" EntityType="SocialMediaModel.User" />
+          <AssociationSet Name="FK_Chat_Users" Association="SocialMediaModel.FK_Chat_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Chat" EntitySet="Chats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chat_Users1" Association="SocialMediaModel.FK_Chat_Users1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Chat" EntitySet="Chats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendshipRequests_Users" Association="SocialMediaModel.FK_FriendshipRequests_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="FriendshipRequest" EntitySet="FriendshipRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendshipRequests_Users1" Association="SocialMediaModel.FK_FriendshipRequests_Users1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="FriendshipRequest" EntitySet="FriendshipRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostComments_Posts" Association="SocialMediaModel.FK_PostComments_Posts">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="PostComment" EntitySet="PostComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostComments_Users" Association="SocialMediaModel.FK_PostComments_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PostComment" EntitySet="PostComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostLikes_Posts" Association="SocialMediaModel.FK_PostLikes_Posts">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="PostLike" EntitySet="PostLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostLikes_Users" Association="SocialMediaModel.FK_PostLikes_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PostLike" EntitySet="PostLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Users" Association="SocialMediaModel.FK_Posts_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostsImages_Posts" Association="SocialMediaModel.FK_PostsImages_Posts">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="PostsImage" EntitySet="PostsImages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Chat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FromUserID" Type="Int64" Nullable="false" />
+          <Property Name="ToUserID" Type="Int64" Nullable="false" />
+          <Property Name="MessageContent" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FromUser" Relationship="SocialMediaModel.FK_Chat_Users" FromRole="Chat" ToRole="User" />
+          <NavigationProperty Name="ToUser" Relationship="SocialMediaModel.FK_Chat_Users1" FromRole="Chat" ToRole="User" />
+        </EntityType>
+        <EntityType Name="FriendshipRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromUserID" Type="Int64" Nullable="false" />
+          <Property Name="ToUserID" Type="Int64" Nullable="false" />
+          <Property Name="RelationStatus" Type="Int32" Nullable="false" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="FromUser" Relationship="SocialMediaModel.FK_FriendshipRequests_Users" FromRole="FriendshipRequest" ToRole="User" />
+          <NavigationProperty Name="ToUser" Relationship="SocialMediaModel.FK_FriendshipRequests_Users1" FromRole="FriendshipRequest" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Inbox">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InboxContent" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RelatedID" Type="Int64" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostComment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="PostID" Type="Int64" Nullable="false" />
+          <Property Name="CommentContent" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="SocialMediaModel.FK_PostComments_Posts" FromRole="PostComment" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="SocialMediaModel.FK_PostComments_Users" FromRole="PostComment" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PostLike">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="PostID" Type="Int64" Nullable="false" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Post" Relationship="SocialMediaModel.FK_PostLikes_Posts" FromRole="PostLike" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="SocialMediaModel.FK_PostLikes_Users" FromRole="PostLike" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="PostingDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PostContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PostComments" Relationship="SocialMediaModel.FK_PostComments_Posts" FromRole="Post" ToRole="PostComment" />
+          <NavigationProperty Name="PostLikes" Relationship="SocialMediaModel.FK_PostLikes_Posts" FromRole="Post" ToRole="PostLike" />
+          <NavigationProperty Name="User" Relationship="SocialMediaModel.FK_Posts_Users" FromRole="Post" ToRole="User" />
+          <NavigationProperty Name="PostsImages" Relationship="SocialMediaModel.FK_PostsImages_Posts" FromRole="Post" ToRole="PostsImage" />
+        </EntityType>
+        <EntityType Name="PostsImage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostID" Type="Int64" Nullable="false" />
+          <Property Name="ImageURL" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Post" Relationship="SocialMediaModel.FK_PostsImages_Posts" FromRole="PostsImage" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Firstname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Map_Lon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Map_Lat" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthdate" Type="DateTime" Precision="0" />
+          <Property Name="PersonalImageURL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WallImageURL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LastSeen" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
+          <Property Name="Gender" Type="Boolean" Nullable="false" />
+          <Property Name="RegisterationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ChatsFrom" Relationship="SocialMediaModel.FK_Chat_Users" FromRole="User" ToRole="Chat" />
+          <NavigationProperty Name="ChatsTo" Relationship="SocialMediaModel.FK_Chat_Users1" FromRole="User" ToRole="Chat" />
+          <NavigationProperty Name="FriendshipRequests" Relationship="SocialMediaModel.FK_FriendshipRequests_Users" FromRole="User" ToRole="FriendshipRequest" />
+          <NavigationProperty Name="FriendshipRequests1" Relationship="SocialMediaModel.FK_FriendshipRequests_Users1" FromRole="User" ToRole="FriendshipRequest" />
+          <NavigationProperty Name="PostComments" Relationship="SocialMediaModel.FK_PostComments_Users" FromRole="User" ToRole="PostComment" />
+          <NavigationProperty Name="PostLikes" Relationship="SocialMediaModel.FK_PostLikes_Users" FromRole="User" ToRole="PostLike" />
+          <NavigationProperty Name="Posts" Relationship="SocialMediaModel.FK_Posts_Users" FromRole="User" ToRole="Post" />
+        </EntityType>
+        <Association Name="FK_Chat_Users">
+          <End Type="SocialMediaModel.User" Role="User" Multiplicity="1" />
+          <End Type="SocialMediaModel.Chat" Role="Chat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Chat">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chat_Users1">
+          <End Type="SocialMediaModel.User" Role="User" Multiplicity="1" />
+          <End Type="SocialMediaModel.Chat" Role="Chat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Chat">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendshipRequests_Users">
+          <End Type="SocialMediaModel.User" Role="User" Multiplicity="1" />
+          <End Type="SocialMediaModel.FriendshipRequest" Role="FriendshipRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendshipRequest">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendshipRequests_Users1">
+          <End Type="SocialMediaModel.User" Role="User" Multiplicity="1" />
+          <End Type="SocialMediaModel.FriendshipRequest" Role="FriendshipRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendshipRequest">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostComments_Posts">
+          <End Type="SocialMediaModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="SocialMediaModel.PostComment" Role="PostComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostComment">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostComments_Users">
+          <End Type="SocialMediaModel.User" Role="User" Multiplicity="1" />
+          <End Type="SocialMediaModel.PostComment" Role="PostComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostComment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostLikes_Posts">
+          <End Type="SocialMediaModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="SocialMediaModel.PostLike" Role="PostLike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostLike">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostLikes_Users">
+          <End Type="SocialMediaModel.User" Role="User" Multiplicity="1" />
+          <End Type="SocialMediaModel.PostLike" Role="PostLike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostLike">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Users">
+          <End Type="SocialMediaModel.User" Role="User" Multiplicity="1" />
+          <End Type="SocialMediaModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostsImages_Posts">
+          <End Type="SocialMediaModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="SocialMediaModel.PostsImage" Role="PostsImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostsImage">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SocialMediaModelStoreContainer" CdmEntityContainer="SocialMediaEntities">
+          <EntitySetMapping Name="Chats">
+            <EntityTypeMapping TypeName="SocialMediaModel.Chat">
+              <MappingFragment StoreEntitySet="Chat">
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="MessageContent" ColumnName="MessageContent" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FriendshipRequests">
+            <EntityTypeMapping TypeName="SocialMediaModel.FriendshipRequest">
+              <MappingFragment StoreEntitySet="FriendshipRequests">
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="RelationStatus" ColumnName="RelationStatus" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inboxes">
+            <EntityTypeMapping TypeName="SocialMediaModel.Inbox">
+              <MappingFragment StoreEntitySet="Inbox">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="RelatedID" ColumnName="RelatedID" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="InboxContent" ColumnName="InboxContent" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostComments">
+            <EntityTypeMapping TypeName="SocialMediaModel.PostComment">
+              <MappingFragment StoreEntitySet="PostComments">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="CommentContent" ColumnName="CommentContent" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostLikes">
+            <EntityTypeMapping TypeName="SocialMediaModel.PostLike">
+              <MappingFragment StoreEntitySet="PostLikes">
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="SocialMediaModel.Post">
+              <MappingFragment StoreEntitySet="Posts">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="PostContent" ColumnName="PostContent" />
+                <ScalarProperty Name="PostingDateTime" ColumnName="PostingDateTime" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostsImages">
+            <EntityTypeMapping TypeName="SocialMediaModel.PostsImage">
+              <MappingFragment StoreEntitySet="PostsImages">
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SocialMediaModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="RegisterationDate" ColumnName="RegisterationDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="LastSeen" ColumnName="LastSeen" />
+                <ScalarProperty Name="WallImageURL" ColumnName="WallImageURL" />
+                <ScalarProperty Name="PersonalImageURL" ColumnName="PersonalImageURL" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="Map_Lat" ColumnName="Map_Lat" />
+                <ScalarProperty Name="Map_Lon" ColumnName="Map_Lon" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
